@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Mechanisms, Capacities, and Dependencies</title>
+
+<script src="site_libs/header-attrs-2.18/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/yeti.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link rel="icon" type="image/png" href="favicon.ico"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/iframe-resizer/3.5.16/iframeResizer.min.js" type="text/javascript"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+<link rel="stylesheet" href="styles.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-inverse  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html"></a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="index.html#people">People</a>
+</li>
+<li>
+  <a href="index.html#publications">Publications</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Mechanisms, Capacities, and
+Dependencies</h1>
+<h3 class="subtitle">Funded by a Reinhart Koselleck Project by the
+German Research Foundation (DFG), we’re developing and testing novel
+theories of causal learning and reasoning.</h3>
+
+</div>
+
+
+<hr />
+<p>Causal cognition endows humans with impressive abilities. It allows
+us to predict and explain, plan actions, understand confoundings, make
+educated guesses about transfer situations, think about counterfactual
+alternatives, and use and engineer innovative devices. Our goal in this
+project is to better understand and explain the breadth and flexibility
+of causal cognition.</p>
+<hr />
+<p><img src="images/title_image.png" /></p>
+<p><br></p>
+<hr />
+<div id="people" class="section level1">
+<h1>People<a name="people"></a></h1>
+<p><br></p>
+<div class="row">
+<div class="column-left">
+<center>
+<h3>
+<strong>Michael Waldmann</strong>
+</h3>
+<img src="images/avatar_michael.png" style="width:100.0%" /><br />
+
+<h3>
+Project Leader
+</h3>
+<a
+href="mailto:michael.waldmann@bio.uni-goettingen.de"><img src="images/mail_icon.png"></a>
+<a
+href="https://scholar.google.com/citations?user=w7jKiJ8AAAAJ&amp;hl=de&amp;oi=ao"><img src="images/scholar_icon.png"></a>
+</center>
+</div>
+<div class="column-right">
+<p><br> Project leader. <br><br />
+- <a
+href="https://www.psych.uni-goettingen.de/de/cognition/team/waldmann">Institutional
+website</a></p>
+</div>
+</div>
+<hr />
+<div class="row">
+<div class="column-left">
+<center>
+<h3>
+<strong>Simon Stephan</strong>
+</h3>
+<img src="images/avatar.png" style="width:100.0%" /><br />
+
+<h3>
+Postdoctoral Researcher
+</h3>
+<a
+href="mailto:simon.stephan@psych.uni-goettingen.de"><img src="images/mail_icon.png"></a>
+<a
+href="https://github.com/SimonStephan31"><img src="images/github_icon.png"></a>
+<a
+href="https://twitter.com/SimonStephan31"><img src="images/twitter_icon.png"></a>
+<a
+href="https://scholar.google.de/citations?hl=de&amp;user=_GsFvvAAAAAJ"><img src="images/scholar_icon.png"></a>
+</center>
+</div>
+<div class="column-right">
+<p><br> Post-doc in the project. <br><br />
+- <a href="https://simonstephan.com/">Personal website</a></p>
+</div>
+</div>
+<hr />
+<div class="row">
+<div class="column-left">
+<center>
+<h3>
+<strong>Tomasz Wysocki</strong>
+</h3>
+<img src="images/avatar_tomasz.png" style="width:100.0%" /><br />
+
+<h3>
+Postdoctoral Researcher
+</h3>
+<a
+href="mailto:%20tomwysocki@pitt.edu"><img src="images/mail_icon.png"></a>
+<a
+href="https://twitter.com/wysockit"><img src="images/twitter_icon.png"></a>
+</center>
+</div>
+<div class="column-right">
+<p><br> Post-doc in the project. <br><br />
+- <a href="https://tomwysocki.net/">Personal website</a></p>
+</div>
+</div>
+<hr />
+<div class="row">
+<div class="column-left">
+<center>
+<h3>
+<strong>Sarah Placì</strong>
+</h3>
+<img src="images/avatar_sarah.png" style="width:100.0%" /><br />
+
+<h3>
+Postdoctoral Researcher
+</h3>
+<a
+href="mailto:sarah.placi@gmail.com"><img src="images/mail_icon.png"></a>
+<a
+href="https://x.com/PlaciSarah"><img src="images/twitter_icon.png"></a>
+<a
+href="https://scholar.google.com/citations?user=7uPERrwAAAAJ&amp;hl=de&amp;oi=ao"><img src="images/scholar_icon.png"></a>
+</center>
+</div>
+<div class="column-right">
+<p><br> Post-doc in the project. <br><br />
+- <a href="https://sarah-placi.github.io/sarah-placi/">Personal
+website</a></p>
+</div>
+</div>
+<p><br />
+</p>
+<hr />
+<div class="row">
+<div class="column-left">
+<center>
+<h3>
+<strong>Louisa Reins</strong>
+</h3>
+<img src="images/avatar_louisa.png" style="width:100.0%" /><br />
+
+<h3>
+Postdoctoral Researcher
+</h3>
+<a
+href="mailto:louisa-marie.reins@uni-goettingen.de"><img src="images/mail_icon.png"></a>
+<a
+href="https://twitter.com/louisareins"><img src="images/twitter_icon.png"></a>
+<a
+href="https://scholar.google.com/citations?user=RVubpTgAAAAJ&amp;hl=de&amp;oi=ao"><img src="images/scholar_icon.png"></a>
+</center>
+</div>
+<div class="column-right">
+<p><br> Post-doc in the project. <br><br />
+- <a href="https://www.researchgate.net/profile/Louisa-Reins">Research
+Gate Site</a></p>
+</div>
+</div>
+<p><br />
+</p>
+</div>
+<div id="project-funded-publications" class="section level1 boxBorder">
+<h1>Project Funded Publications<a name="publications"></a></h1>
+<ul>
+<li><p>Gasalla, P., Figueroa, J., Waldmann, M. R. and Dwyer, D. M.
+(2024). Beyond the information (not) given: Associative mechanisms vs
+representations of uncertainty in extinction in laboratory rats (Rattus
+norvegicus). <em>Journal of Comparative Psychology</em>.<span
+title="publication"><a
+href="https://orca.cardiff.ac.uk/id/eprint/166330/1/Dwyer.%20Beyond%20the%20information.pdf">[PDF]</a></span></p></li>
+<li><p>Marulanda-Hernández, J. C.,Wiegmann, A., &amp; Waldmann, M.
+R.(2024). Camouflaged liability: How the distinction between civilians
+and soldiers influences moral judgement of permissible harm in war.
+<em>European Journal of Social Psychology</em>,1–14.<span
+title="publication"><a
+href="https://onlinelibrary.wiley.com/doi/epdf/10.1002/ejsp.3072">[PDF]</a></span></p></li>
+<li><p>Stephan, S (2024). Reasoning about actual causation in reversible
+and irreversible causal structures. <em>Journal of Experimental
+Psychology: Learning, Memory, and Cognition</em>. Advance online
+publication<span title="publication"><a
+href="publications/Stephan_2024_ActualCausation_in_ReversibleStructures.pdf">[PDF]</a></span>
+<span title="github site"><a
+href="https://simonstephan31.github.io/actual_cause_reverse/index.html">[GitHub]</a></span>
+<span title="osf repository"><a
+href="https://osf.io/dnbf6/">[OSF]</a></span><span title="pre-print"><a
+href="XXX">[PrePrint]</a></span> <span title="pre-registration"><a
+href="https://osf.io/dnbf6/registrations">[PreReg]</a></span><span
+title="award"><a
+href="https://www.apadivisions.org/division-3/awards">[2024 Best Paper
+Award by Divison 3 of the APA. <img src="images/Lit_
+price_icon.png">]</a></span></p></li>
+<li><p>Stephan, S. (2023). Revisiting the narrow latent scope bias in
+explanatory reasoning. <em>Cognition</em>, 241, 105630.<span
+title="publication"><a
+href="https://www.simonstephan.com/publications/Stephan_2024_ActualCausation_in_ReversibleStructures.pdf">[PDF]</a></span>
+<span title="github site"><a
+href="https://simonstephan31.github.io/revisit_nlsbias/index.html">[GitHub]</a></span>
+<span title="osf repository"><a
+href="https://osf.io/n94ed/">[OSF]</a></span><span title="pre-print"><a
+href="https://psyarxiv.com/a8cve/">[PrePrint]</a></span></p></li>
+<li><p>Stephan, S., Engelmann, N., &amp; Waldmann, M. R. (2023). The
+perceived dilution of causal strength. <em>Cognitive Psychology</em>,
+140, 101540.<span title="publication"><a
+href="https://www.simonstephan.com/publications/Stephan_Engelmann_Waldmann_2023_strengthDilution.pdf">[PDF]</a></span>
+<span title="github site"><a
+href="https://simonstephan31.github.io/The-Dilution-of-Causal-Strength/index.html">[GitHub]</a></span>
+<span title="osf repository"><a
+href="https://osf.io/nrv7p/">[OSF]</a></span></p></li>
+<li><p>Wysocki, T. (2023). An event algebra for causal counterfactuals.
+<em>Philosophical Studies</em>, 180, 3533–3565.<span
+title="publication"><a
+href="publications/wysocki_2023_eventAlgebra.pdf">[PDF]</a></span></p></li>
+<li><p>Wysocki, T. (2023). Conjoined cases. <em>Synthese</em>, 201,
+197.<span title="publication"><a
+href="publications/wysocki_2023_conjoinedCases.pdf">[PDF]</a></span></p></li>
+</ul>
+<!---
+- __Waldmann, M. R.__ (2017). _The Oxford handbook of causal reasoning_. Oxford University Press.
+-->
+</div>
+<hr />
+<p><br />
+</p>
+<div id="recent-talks-and-conference-presentations"
+class="section level1">
+<h1>Recent Talks and Conference
+Presentations<a name="talks_confs"></a></h1>
+<div id="section" class="section level2">
+<h2>2024</h2>
+<ul>
+<li><p>Waldmann, M. R. (2024) <strong>Interpolating causal mechanisms.
+The paradox of knowing more.</strong> Second Annual Conference of the
+Society for Philosophy of Causation, Göttingen, July 2024.</p></li>
+<li><p>Stephan, S. (2024) <strong>Reasoning about Actual Causation in
+Reversible and Irreversible Causal Structures.</strong> Second Annual
+Conference of the Society for Philosophy of Causation, Göttingen, July
+2024.</p></li>
+<li><p>Wysocki, T. (2024) <strong>Polymorphic Functions for a Better
+Semantics of Counterfactuals.</strong> Second Annual Conference of the
+Society for Philosophy of Causation, Göttingen, July 2024.</p></li>
+</ul>
+</div>
+</div>
+
+<p><font size="-1.5">Copyright &copy; 2023 Simon Stephan.</font></p>
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
